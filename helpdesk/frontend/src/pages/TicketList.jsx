@@ -29,17 +29,37 @@ export default function TicketList() {
     load();
   }, [load]);
 
+  const show = (n) => (loading || error ? "–" : n);
+  const open = tickets.filter((t) => t.status === "Open").length;
+  const critical = tickets.filter(
+    (t) =>
+      t.priority === "Critical" && !["Resolved", "Closed"].includes(t.status),
+  ).length;
+
   return (
     <>
       <section className="hero">
-        <p className="eyebrow">IT service desk</p>
-        <h1 className="display">Tickets</h1>
-        <p className="lead">
-          Track, review and resolve service requests across the network.
-        </p>
-        <Link to="/tickets/new" className="btn primary">
-          New ticket
-        </Link>
+        <div>
+          <p className="eyebrow">IT service desk</p>
+          <h1 className="display">Tickets</h1>
+          <p className="lead">
+            Track, review and resolve service requests across the network.
+          </p>
+          <Link to="/tickets/new" className="btn primary">
+            New ticket
+          </Link>
+        </div>
+        <div className="stats">
+          <div>
+            <span>{show(tickets.length)}</span>Total
+          </div>
+          <div>
+            <span>{show(open)}</span>Open
+          </div>
+          <div>
+            <span>{show(critical)}</span>Critical
+          </div>
+        </div>
       </section>
 
       <div className="marquee" aria-hidden="true">
@@ -93,7 +113,7 @@ export default function TicketList() {
                   onClick={() => navigate(`/tickets/${t.id}`)}
                   className="row"
                 >
-                  <td>
+                  <td data-label="Ticket">
                     <Link
                       to={`/tickets/${t.id}`}
                       onClick={(e) => e.stopPropagation()}
@@ -101,15 +121,17 @@ export default function TicketList() {
                       {t.ticket_number}
                     </Link>
                   </td>
-                  <td>{t.requester_name}</td>
-                  <td>{t.subject}</td>
-                  <td>
+                  <td data-label="Requester">{t.requester_name}</td>
+                  <td data-label="Subject">{t.subject}</td>
+                  <td data-label="Priority">
                     <Badge kind="p" value={t.priority} />
                   </td>
-                  <td>
+                  <td data-label="Status">
                     <Badge kind="s" value={t.status} />
                   </td>
-                  <td className="nowrap">{fmtDate(t.created_at)}</td>
+                  <td data-label="Created" className="nowrap">
+                    {fmtDate(t.created_at)}
+                  </td>
                 </tr>
               ))}
             </tbody>

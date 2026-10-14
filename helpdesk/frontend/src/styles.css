@@ -2,22 +2,25 @@
   --bg: #0b0708;
   --panel: #120c0e;
   --line: #2b1c20;
-  --maroon: #3b141e;
   --peach: #e2b9a0;
   --peach-d: #cfa086;
   --text: #f3e9e3;
   --muted: #a69089;
   --danger: #e8847d;
+  --maxw: 1200px;
 }
 * {
   box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
 }
 body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
   font:
-    300 15px/1.6 "Jost",
+    300 clamp(14px, 0.9vw + 11px, 16px)/1.6 "Jost",
     system-ui,
     sans-serif;
 }
@@ -29,7 +32,7 @@ h2 {
   letter-spacing: 0.01em;
 }
 h1 {
-  font-size: 2.1rem;
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
 }
 h2 {
   font-size: 1.35rem;
@@ -49,26 +52,30 @@ a {
   margin: 0 0 0.7rem;
 }
 
-/* header */
+/* header: content lines up with the page container */
 .bar {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: 0.9rem 2rem;
+  padding: 0.8rem max(1.5rem, calc((100% - var(--maxw)) / 2 + 1.5rem));
   border-bottom: 1px solid var(--line);
-  background: var(--bg);
+  background: rgba(11, 7, 8, 0.88);
+  backdrop-filter: blur(8px);
   position: sticky;
   top: 0;
   z-index: 5;
 }
 .brand {
+  grid-area: brand;
   font-family: "Cormorant Garamond", serif;
   font-style: italic;
   font-size: 1.7rem;
   color: var(--text);
   text-decoration: none;
+  white-space: nowrap;
 }
 .nav {
+  grid-area: nav;
   display: flex;
   gap: 2rem;
 }
@@ -78,7 +85,7 @@ a {
   font-size: 0.72rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  padding: 0.3rem 0;
+  padding: 0.4rem 0;
   border-bottom: 1px solid transparent;
 }
 .nav a:hover,
@@ -87,24 +94,28 @@ a {
   border-color: var(--peach);
 }
 .bar .btn {
+  grid-area: out;
   justify-self: end;
-  padding: 0.65rem 1.3rem;
+  padding: 0.7rem 1.3rem;
 }
 .page {
-  max-width: 1120px;
+  max-width: var(--maxw);
   margin: 0 auto;
-  padding: 2rem 1.5rem 6rem;
+  padding: clamp(1rem, 3vw, 2rem) 1.5rem 6rem;
 }
 
 /* buttons */
 .btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
   font:
     400 0.72rem/1 "Jost",
     sans-serif;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: 0.95rem 1.7rem;
+  padding: 0.9rem 1.7rem;
   border-radius: 999px;
   border: 1px solid transparent;
   cursor: pointer;
@@ -156,12 +167,15 @@ a {
 }
 .back {
   margin-bottom: 1.2rem;
+  margin-left: max(0px, calc((100% - 820px) / 2));
 }
 
-/* hero + marquee */
+/* hero, stats, marquee */
 .hero {
+  display: grid;
+  gap: 2rem;
   border-radius: 18px;
-  padding: 3.5rem 3rem;
+  padding: clamp(1.5rem, 5vw, 3.5rem);
   border: 1px solid var(--line);
   overflow: hidden;
   background: radial-gradient(
@@ -172,25 +186,50 @@ a {
   );
 }
 .display {
-  font-size: clamp(3.4rem, 13vw, 9rem);
+  font-size: clamp(2.8rem, 11vw, 8rem);
   line-height: 0.95;
   letter-spacing: 0.02em;
   color: var(--peach);
   text-transform: uppercase;
   margin: 0 0 1.2rem;
+  overflow-wrap: anywhere;
 }
 .display.sm {
-  font-size: 2.8rem;
+  font-size: clamp(2rem, 8vw, 2.8rem);
 }
 .lead {
   max-width: 30ch;
-  font-size: 1.3rem;
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
   margin: 0 0 1.6rem;
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+  align-self: end;
+}
+.stats div {
+  border: 1px solid #4a2a33;
+  background: rgba(11, 7, 8, 0.45);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--peach-d);
+}
+.stats span {
+  display: block;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1.1;
+  letter-spacing: 0;
+  color: var(--peach);
 }
 .marquee {
   overflow: hidden;
   border-block: 1px solid var(--line);
-  margin: 2rem 0;
+  margin: clamp(1.2rem, 3vw, 2rem) 0;
 }
 .track {
   display: flex;
@@ -199,7 +238,7 @@ a {
 }
 .track span {
   font-family: "Cormorant Garamond", serif;
-  font-size: 1.4rem;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--peach-d);
@@ -215,6 +254,9 @@ a {
   .track {
     animation: none;
   }
+  * {
+    transition: none !important;
+  }
 }
 
 /* surfaces */
@@ -222,7 +264,7 @@ a {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 14px;
-  padding: 2rem;
+  padding: clamp(1.2rem, 4vw, 2rem);
 }
 .alert {
   background: #2a1210;
@@ -254,6 +296,7 @@ td {
   text-align: left;
   padding: 1rem 1.1rem;
   border-bottom: 1px solid var(--line);
+  vertical-align: middle;
 }
 th {
   font-size: 0.68rem;
@@ -261,6 +304,7 @@ th {
   text-transform: uppercase;
   color: var(--peach-d);
   font-weight: 400;
+  white-space: nowrap;
 }
 tr:last-child td {
   border-bottom: 0;
@@ -284,6 +328,7 @@ tr:last-child td {
   letter-spacing: 0.06em;
   border: 1px solid #4a2f35;
   color: var(--text);
+  white-space: nowrap;
 }
 .p-critical {
   border-color: var(--danger);
@@ -314,8 +359,8 @@ tr:last-child td {
 }
 .fab {
   position: fixed;
-  right: 1.6rem;
-  bottom: 1.6rem;
+  right: max(1.2rem, env(safe-area-inset-right));
+  bottom: calc(1.2rem + env(safe-area-inset-bottom));
   width: 58px;
   height: 58px;
   border-radius: 50%;
@@ -346,10 +391,11 @@ select,
 textarea {
   display: block;
   width: 100%;
+  min-height: 46px;
   margin-top: 0.45rem;
   padding: 0.8rem 1rem;
   font:
-    300 1rem "Jost",
+    300 16px "Jost",
     sans-serif;
   letter-spacing: 0;
   text-transform: none;
@@ -357,6 +403,9 @@ textarea {
   background: var(--bg);
   border: 1px solid #3a262b;
   border-radius: 10px;
+}
+textarea {
+  resize: vertical;
 }
 input:focus,
 select:focus,
@@ -382,8 +431,10 @@ textarea:focus {
   grid-template-columns: 1fr 1fr;
   gap: 0 1.5rem;
 }
-.form {
-  max-width: 760px;
+.form,
+.detail {
+  max-width: 820px;
+  margin-inline: auto;
 }
 .actions {
   display: flex;
@@ -403,6 +454,7 @@ textarea:focus {
 /* login + details */
 .login-wrap {
   min-height: 100vh;
+  min-height: 100dvh;
   display: grid;
   place-items: center;
   padding: 1rem;
@@ -437,29 +489,115 @@ dt {
 }
 dd {
   margin: 0;
+  overflow-wrap: anywhere;
 }
 .desc {
   white-space: pre-wrap;
   max-width: 70ch;
+  overflow-wrap: anywhere;
 }
+
+/* tablet and down: hero keeps stats under the text */
+@media (min-width: 900px) {
+  .hero {
+    grid-template-columns: 1.7fr 1fr;
+  }
+  .stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* phone */
 @media (max-width: 700px) {
   .bar {
     grid-template-columns: 1fr auto;
-    padding: 0.8rem 1rem;
+    grid-template-areas: "brand out" "nav nav";
+    padding: 0.7rem 1rem;
   }
   .nav {
-    display: none;
+    justify-content: center;
+    gap: 1.6rem;
+    margin-top: 0.6rem;
+    padding-top: 0.4rem;
+    border-top: 1px solid var(--line);
   }
-  .hero {
-    padding: 2rem 1.4rem;
+  .bar .btn {
+    padding: 0.6rem 1.1rem;
+    min-height: 40px;
+  }
+  .page {
+    padding-inline: 1rem;
   }
   .grid2 {
     grid-template-columns: 1fr;
   }
+  .stats div {
+    padding: 0.7rem 0.8rem;
+    letter-spacing: 0.12em;
+  }
   dl {
     grid-template-columns: 1fr;
+    gap: 0.1rem;
   }
   dt {
-    margin-top: 0.6rem;
+    margin-top: 0.8rem;
+  }
+  .actions .btn,
+  .confirm .btn {
+    flex: 1 1 100%;
+  }
+  .back {
+    margin-left: 0;
+  }
+
+  /* table becomes stacked cards */
+  .table-wrap {
+    background: none;
+    border: 0;
+    overflow: visible;
+  }
+  table,
+  tbody,
+  tr,
+  td {
+    display: block;
+    width: 100%;
+  }
+  thead {
+    position: absolute;
+    left: -9999px;
+  }
+  tr.row {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    margin-bottom: 0.9rem;
+    padding: 0.4rem 0;
+  }
+  td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    border: 0;
+    padding: 0.55rem 1.1rem;
+    text-align: right;
+  }
+  td::before {
+    content: attr(data-label);
+    flex-shrink: 0;
+    font-size: 0.66rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--peach-d);
+    text-align: left;
+  }
+}
+@media (max-width: 380px) {
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+  .stats div:last-child {
+    grid-column: span 2;
   }
 }
