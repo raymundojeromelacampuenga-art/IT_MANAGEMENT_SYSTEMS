@@ -56,6 +56,7 @@ a {
 .bar {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
+  grid-template-areas: "brand nav out";
   align-items: center;
   padding: 0.8rem max(1.5rem, calc((100% - var(--maxw)) / 2 + 1.5rem));
   border-bottom: 1px solid var(--line);
@@ -512,7 +513,9 @@ dd {
 @media (max-width: 700px) {
   .bar {
     grid-template-columns: 1fr auto;
-    grid-template-areas: "brand nav out";
+    grid-template-areas:
+      "brand out"
+      "nav nav";
     padding: 0.7rem 1rem;
   }
   .nav {
