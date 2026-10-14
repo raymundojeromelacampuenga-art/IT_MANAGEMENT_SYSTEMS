@@ -1,17 +1,27 @@
-import { Routes, Route, Navigate, Link } from 'react-router-dom';
-import { ProtectedRoute, useAuth } from './auth.jsx';
-import Login from './pages/Login.jsx';
-import TicketList from './pages/TicketList.jsx';
-import TicketForm from './pages/TicketForm.jsx';
-import TicketDetails from './pages/TicketDetails.jsx';
+import { Routes, Route, Navigate, Link, NavLink } from "react-router-dom";
+import { ProtectedRoute, useAuth } from "./auth.jsx";
+import Login from "./pages/Login.jsx";
+import TicketList from "./pages/TicketList.jsx";
+import TicketForm from "./pages/TicketForm.jsx";
+import TicketDetails from "./pages/TicketDetails.jsx";
 
 function Shell({ children }) {
   const { logout } = useAuth();
   return (
     <>
       <header className="bar">
-        <Link to="/" className="brand">IT Helpdesk</Link>
-        <button className="btn ghost" onClick={logout}>Log out</button>
+        <Link to="/" className="brand">
+          IT Helpdesk
+        </Link>
+        <nav className="nav">
+          <NavLink to="/" end>
+            Tickets
+          </NavLink>
+          <NavLink to="/tickets/new">New ticket</NavLink>
+        </nav>
+        <button className="btn ghost" onClick={logout}>
+          Log out
+        </button>
       </header>
       <main className="page">{children}</main>
     </>
